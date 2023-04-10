@@ -1,5 +1,9 @@
-from django.urls import path
+from rest_framework.routers import DefaultRouter
+
 from . import views
 
-urlpatterns = [
-]
+router = DefaultRouter()
+router.register(r'leagues', views.LeagueViewSet)
+router.register(r'groups', views.GroupViewSet)
+
+urlpatterns = router.urls

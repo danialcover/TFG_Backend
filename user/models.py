@@ -14,4 +14,4 @@ class Profile(models.Model):
     roles = models.ManyToManyField(Role)
 
     def __str__(self):
-        return self.user.username
+        return self.user.first_name + ' ' + self.user.last_name
