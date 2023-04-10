@@ -1,7 +1,7 @@
 from rest_framework import serializers
 
 from club.serializers import TeamSerializer
-from .models import League, Group
+from .models import League, Group, Team
 
 
 class LeagueSerializer(serializers.ModelSerializer):
@@ -11,9 +11,17 @@ class LeagueSerializer(serializers.ModelSerializer):
 
 
 class GroupSerializer(serializers.ModelSerializer):
-    league = LeagueSerializer(read_only=True)
-    teams = TeamSerializer(read_only=True, many=True)
+    league = serializers.PrimaryKeyRelatedField(queryset=League.objects.all())
+    teams = serializers.PrimaryKeyRelatedField(queryset=Team.objects.all(), many=True)
 
     class Meta:
         model = Group
         fields = '__all__'
+
+    def create(self, validated_data):
+        teams_data = validated_data.pop('teams')
+        group = Group.objects.create(**validated_data)
+        for team_data in teams_data:
+            group.teams.add(team_data)
+        group.save()
+        return group

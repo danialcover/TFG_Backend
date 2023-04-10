@@ -10,7 +10,7 @@ class ClubSerializer(serializers.ModelSerializer):
 
 
 class TeamSerializer(serializers.ModelSerializer):
-    club = ClubSerializer(read_only=True)
+    club = serializers.PrimaryKeyRelatedField(queryset=Club.objects.all())
 
     class Meta:
         model = Team
