@@ -16,6 +16,7 @@ class RoleListView(generics.ListAPIView):
 
 
 class ProfileListByRole(generics.ListAPIView):
+    permission_classes = (IsAuthenticated,)
     serializer_class = ProfileSerializer
 
     def get_queryset(self):
