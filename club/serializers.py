@@ -1,0 +1,25 @@
+from rest_framework import serializers
+
+from .models import Team, Club, Location
+
+
+class ClubSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Club
+        fields = ['id', 'name']
+
+
+class TeamSerializer(serializers.ModelSerializer):
+    club = ClubSerializer(read_only=True)
+
+    class Meta:
+        model = Team
+        fields = '__all__'
+
+
+class LocationSerializer(serializers.ModelSerializer):
+    club = ClubSerializer(read_only=True)
+
+    class Meta:
+        model = Location
+        fields = ['id', 'address', 'postal_code', 'city', 'club']

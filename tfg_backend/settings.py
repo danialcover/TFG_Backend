@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'user',
-    'league'
+    'league',
+    'club'
 ]
 
 MIDDLEWARE = [

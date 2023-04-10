@@ -1,5 +1,7 @@
 from django.db import models
 
+from club.models import Team
+
 
 class League(models.Model):
     name = models.CharField(max_length=30)
@@ -11,6 +13,7 @@ class League(models.Model):
 
 class Group(models.Model):
     league = models.ForeignKey(League, on_delete=models.CASCADE)
+    teams = models.ManyToManyField(Team)
 
     def __str__(self):
         return 'group_' + str(self.id)

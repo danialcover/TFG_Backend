@@ -7,8 +7,12 @@ from rest_framework.permissions import AllowAny
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
-from .models import Profile
-from .serializers import ProfileSerializer
+from .models import Profile, Role
+from .serializers import ProfileSerializer, RoleSerializer
+
+class RoleListView(generics.ListAPIView):
+    queryset = Role.objects.all()
+    serializer_class = RoleSerializer
 
 
 class ProfileListByRole(generics.ListAPIView):
