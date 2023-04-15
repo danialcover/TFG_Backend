@@ -16,4 +16,4 @@ class Group(models.Model):
     teams = models.ManyToManyField(Team)
 
     def __str__(self):
-        return 'group_' + str(self.id)
+        return 'Group_' + str(self.id)
