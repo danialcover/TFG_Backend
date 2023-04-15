@@ -16,13 +16,12 @@ class RoleListView(generics.ListAPIView):
     serializer_class = RoleSerializer
 
 
-class ProfileListByRole(generics.ListAPIView):
+class ProfileRefereesList(generics.ListAPIView):
     permission_classes = (IsAuthenticated,)
     serializer_class = ProfileSerializer
 
     def get_queryset(self):
-        role_id = self.kwargs['role_id']
-        return Profile.objects.filter(roles__id=role_id)
+        return Profile.objects.filter(roles__id=3)
 
 
 @csrf_exempt
