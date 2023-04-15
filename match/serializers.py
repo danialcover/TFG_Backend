@@ -12,6 +12,7 @@ class MatchSerializer(serializers.ModelSerializer):
     team1 = serializers.PrimaryKeyRelatedField(queryset=Team.objects.all())
     team2 = serializers.PrimaryKeyRelatedField(queryset=Team.objects.all())
     location = serializers.PrimaryKeyRelatedField(queryset=Location.objects.all())
+    date = serializers.DateTimeField()
 
     class Meta:
         model = Match
