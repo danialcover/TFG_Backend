@@ -11,6 +11,7 @@ from .models import Profile, Role
 from .serializers import ProfileSerializer, RoleSerializer
 
 class RoleListView(generics.ListAPIView):
+    permission_classes = (IsAuthenticated,)
     queryset = Role.objects.all()
     serializer_class = RoleSerializer
 
