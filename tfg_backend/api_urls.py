@@ -5,4 +5,5 @@ urlpatterns = [
     path('', include('user.urls')),
     path('', include('league.urls')),
     path('', include('club.urls')),
+    path('', include('match.urls')),
 ]
