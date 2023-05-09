@@ -1,17 +1,17 @@
 from rest_framework import serializers
 
+from club.serializers import TeamSerializer, LocationSerializer
+from league.serializers import GroupSerializer
+from user.serializers import ProfileSerializer
 from .models import Match
-from club.models import Team, Location
-from user.models import Profile
-from league.models import Group
 
 
 class MatchSerializer(serializers.ModelSerializer):
-    group = serializers.PrimaryKeyRelatedField(queryset=Group.objects.all())
-    user = serializers.PrimaryKeyRelatedField(queryset=Profile.objects.all(), allow_null=True, required=False)
-    team1 = serializers.PrimaryKeyRelatedField(queryset=Team.objects.all())
-    team2 = serializers.PrimaryKeyRelatedField(queryset=Team.objects.all())
-    location = serializers.PrimaryKeyRelatedField(queryset=Location.objects.all())
+    group = GroupSerializer()
+    user = ProfileSerializer()
+    team1 = TeamSerializer()
+    team2 = TeamSerializer()
+    location = LocationSerializer()
     date = serializers.DateTimeField()
 
     class Meta:

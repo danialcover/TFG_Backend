@@ -1,7 +1,7 @@
 from rest_framework import serializers
 
 from club.serializers import TeamSerializer
-from .models import League, Group, Team
+from .models import League, Group, GroupTeam
 
 
 class LeagueSerializer(serializers.ModelSerializer):
@@ -11,8 +11,7 @@ class LeagueSerializer(serializers.ModelSerializer):
 
 
 class GroupSerializer(serializers.ModelSerializer):
-    league = serializers.PrimaryKeyRelatedField(queryset=League.objects.all())
-    teams = serializers.PrimaryKeyRelatedField(queryset=Team.objects.all(), many=True)
+    league = LeagueSerializer()
 
     class Meta:
         model = Group
@@ -25,3 +24,18 @@ class GroupSerializer(serializers.ModelSerializer):
             group.teams.add(team_data)
         group.save()
         return group
+
+class GroupTeamSerializer(serializers.ModelSerializer):
+    group = GroupSerializer()
+    team = TeamSerializer()
+    num_matches_played = serializers.IntegerField(default=0, allow_null=True, required=False)
+    num_wins = serializers.IntegerField(default=0, allow_null=True, required=False)
+    num_draws = serializers.IntegerField(default=0, allow_null=True, required=False)
+    num_losses = serializers.IntegerField(default=0, allow_null=True, required=False)
+    goals_scored = serializers.IntegerField(default=0, allow_null=True, required=False)
+    goals_conceded = serializers.IntegerField(default=0, allow_null=True, required=False)
+    points = serializers.IntegerField(default=0, allow_null=True, required=False)
+
+    class Meta:
+        model = GroupTeam
+        fields = '__all__'
