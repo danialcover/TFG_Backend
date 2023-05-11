@@ -1,3 +1,5 @@
+from django.contrib.auth import get_user_model
+from django.contrib.auth.backends import ModelBackend
 from django.contrib.auth.models import User
 from rest_framework import serializers
 
@@ -37,3 +39,25 @@ class ProfileSerializer(serializers.ModelSerializer):
         profile.save()
 
         return profile
+
+
+class ProfileBackend(ModelBackend):
+    def authenticate(self, request=None, username=None, password=None, **kwargs):
+        userModel = get_user_model()
+        try:
+            user = userModel.objects.get(username=username)
+            if user.check_password(password):
+                try:
+                    profile = Profile.objects.get(user=user)
+                    return profile
+                except Profile.DoesNotExist:
+                    pass
+        except userModel.DoesNotExist:
+            pass
+        return None
+
+    def get_user(self, user_id):
+        try:
+            return Profile.objects.get(pk=user_id)
+        except Profile.DoesNotExist:
+            return None

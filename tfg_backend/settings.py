@@ -61,6 +61,12 @@ MIDDLEWARE = [
 
 CORS_ALLOW_ALL_ORIGINS = True
 
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'user.serializers.ProfileBackend',
+]
+
+
 ROOT_URLCONF = 'tfg_backend.urls'
 
 TEMPLATES = [

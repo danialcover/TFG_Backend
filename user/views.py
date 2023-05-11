@@ -1,20 +1,24 @@
 from django.http import Http404
 from django.views.decorators.csrf import csrf_exempt
-from rest_framework import generics
+from rest_framework import generics, viewsets
 from rest_framework import status
+from rest_framework.authtoken.models import Token
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from .models import Profile, Role
-from .serializers import ProfileSerializer, RoleSerializer
+from .serializers import ProfileSerializer, RoleSerializer, ProfileBackend
 
 class RoleListView(generics.ListAPIView):
     permission_classes = (IsAuthenticated,)
     queryset = Role.objects.all()
     serializer_class = RoleSerializer
 
+class ProfileViewSet(viewsets.ModelViewSet):
+    queryset = Profile.objects.all()
+    serializer_class = ProfileSerializer
 
 class ProfileRefereesList(generics.ListAPIView):
     permission_classes = (IsAuthenticated,)
@@ -23,6 +27,17 @@ class ProfileRefereesList(generics.ListAPIView):
     def get_queryset(self):
         return Profile.objects.filter(roles__id=3)
 
+@api_view(['POST'])
+def login(request):
+    username = request.data.get('username')
+    password = request.data.get('password')
+    profile = ProfileBackend.authenticate(request, username=username, password=password)
+    if profile is not None:
+        profile_serializer = ProfileSerializer(profile)
+        token, created = Token.objects.get_or_create(user=profile.user)
+        return Response({'token': token.key, 'profile': profile_serializer.data})
+    else:
+        return Response({'Les Credencials introduïdes són invàlides'}, status=status.HTTP_401_UNAUTHORIZED)
 
 @csrf_exempt
 @api_view(['POST'])
