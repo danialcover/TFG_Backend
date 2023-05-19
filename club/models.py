@@ -20,7 +20,6 @@ class Location(models.Model):
     address = models.CharField(max_length=40)
     postal_code = models.CharField(max_length=5)
     city = models.CharField(max_length=30)
-    club = models.ForeignKey(Club, on_delete=models.CASCADE)
 
 
 class Member(models.Model):

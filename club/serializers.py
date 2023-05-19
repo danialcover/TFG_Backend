@@ -18,11 +18,10 @@ class TeamSerializer(serializers.ModelSerializer):
 
 
 class LocationSerializer(serializers.ModelSerializer):
-    club = serializers.PrimaryKeyRelatedField(queryset=Club.objects.all())
 
     class Meta:
         model = Location
-        fields = ['id', 'address', 'postal_code', 'city', 'club']
+        fields = ['id', 'address', 'postal_code', 'city']
 
 class MemberSerializer(serializers.ModelSerializer):
     team = serializers.PrimaryKeyRelatedField(queryset=Team.objects.all())
