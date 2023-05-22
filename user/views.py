@@ -35,7 +35,9 @@ def login(request):
     if profile is not None:
         profile_serializer = ProfileSerializer(profile)
         token, created = Token.objects.get_or_create(user=profile.user)
-        return Response({'token': token.key, 'profile': profile_serializer.data})
+        response_data = profile_serializer.data
+        response_data.update({'token': token.key})
+        return Response(response_data)
     else:
         return Response({'Les Credencials introduïdes són invàlides'}, status=status.HTTP_401_UNAUTHORIZED)
 

@@ -7,7 +7,7 @@ from user.models import Profile
 
 class Match(models.Model):
     group = models.ForeignKey(Group, on_delete=models.CASCADE)
-    user = models.ForeignKey(Profile, on_delete=models.SET_NULL, null=True, blank=True)
+    profile = models.ForeignKey(Profile, on_delete=models.SET_NULL, null=True, blank=True)
     team1 = models.ForeignKey(Team, on_delete=models.CASCADE, related_name='team1')
     team2 = models.ForeignKey(Team, on_delete=models.CASCADE, related_name='team2')
     location = models.ForeignKey(Location, on_delete=models.CASCADE)
