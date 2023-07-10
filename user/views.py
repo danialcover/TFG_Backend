@@ -8,11 +8,13 @@ from rest_framework.permissions import AllowAny
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
+from league.views import CustomGetPermissions
 from .models import Profile, Role
 from .serializers import ProfileSerializer, RoleSerializer, ProfileBackend
 
+
 class RoleListView(generics.ListAPIView):
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (CustomGetPermissions,)
     queryset = Role.objects.all()
     serializer_class = RoleSerializer
 
@@ -21,7 +23,7 @@ class ProfileViewSet(viewsets.ModelViewSet):
     serializer_class = ProfileSerializer
 
 class ProfileRefereesList(generics.ListAPIView):
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (CustomGetPermissions,)
     serializer_class = ProfileSerializer
 
     def get_queryset(self):

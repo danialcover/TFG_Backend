@@ -18,6 +18,7 @@ class Group(models.Model):
     def __str__(self):
         return 'Group_' + str(self.id)
 
+
 class GroupTeam(models.Model):
     group = models.ForeignKey(Group, on_delete=models.CASCADE)
     team = models.ForeignKey(Team, on_delete=models.CASCADE)
@@ -32,3 +33,7 @@ class GroupTeam(models.Model):
 
     class Meta:
         unique_together = ('group', 'team')
+
+
+class MatchDay(models.Model):
+    name = models.CharField(max_length=30)
